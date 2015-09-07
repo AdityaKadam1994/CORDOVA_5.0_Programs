@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Example 2.1</title>
+
+  <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" id="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <link rel="stylesheet" type="text/css" href="jquery.mobile-1.4.4.css"/>
+
+  <script src="jquery-1.11.1.min.js"></script>
+  <script src="jquery.mobile-1.4.4.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+
+  <script type="text/javascript" charset="utf-8">
+
+    var cvaReady = false;
+
+    function onBodyLoad() {
+      document.addEventListener("deviceready", onDeviceReady, false);
+    }
+
+    function onDeviceReady() {
+      cvaReady = true;
+    }
+
+    function getOrientation() {
+      if (cvaReady == true) {
+        navigator.accelerometer.getCurrentAcceleration(onAccelSuccess, onAccelFailure);
+      } else {
+        alert("Not yet, Cordova is not ready.");
+      }
+    }
+
+    function onAccelSuccess(accel) {
+      var d = new Date(accel.timestamp);
+      var tmpStr;
+
+      tmpStr  = makeListItem('X: ' + accel.x);
+      tmpStr += makeListItem('Y: ' + accel.y);
+      tmpStr += makeListItem('Z: ' + accel.z);
+      tmpStr += makeListItem('Timestamp: ' + d.toLocaleString());
+
+      $("#points").html(tmpStr);
+      $("#points").listview("refresh");
+    }
+
+    function onAccelFailure(errObj) {
+      console.error(errObj);
+      navigator.notification.alert("Accelerometer error: " + JSON.stringify(errObj), null, 'Accelerometer Error', 'Continue');
+    }
+
+    function makeListItem(textStr) {
+      console.log(textStr)
+      return '<li>' + textStr + '</li>';
+    }
+  </script>
+</head>
+
+<body onload="onBodyLoad()">
+  <div data-role="page">
+    <div data-role="header">
+      <h1>Accelerometer</h1>
+    </div>
+    <div data-role="main" class="ui-content">
+      <button onclick="getOrientation();">
+        Refresh Orientation
+      </button>
+      <br>
+      <ul data-role='listview' id="points" data-inset="true"></ul>
+    </div>
+  </div>
+</body>
+</html>

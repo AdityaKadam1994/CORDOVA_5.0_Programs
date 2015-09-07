@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Hello Cordova 1</title>
+
+
+  <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" id="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <link rel="stylesheet" type="text/css" href="jquery.mobile-1.4.4.css"/>
+
+  <script src="jquery-1.11.1.min.js"></script>
+  <script src="jquery.mobile-1.4.4.js"></script>
+  <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+
+  <script type="text/javascript" charset="utf-8">
+
+    var cvaReady = false;
+
+    function onBodyLoad() {
+      document.addEventListener("deviceready", onDeviceReady, false);
+    }
+
+    function onDeviceReady() {
+      cvaReady = true;
+    }
+
+    function cameraCapture()
+    {
+      if (cvaReady == true) {
+        navigator.camera.getPicture(cameraSuccess, cameraError, {
+          quality : 50,
+          destinationType : Camera.DestinationType.FILE_URI,
+          sourceType : Camera.PictureSourceType.CAMERA
+        });
+      } else {
+        alert("Not yet, Cordova is not ready.");
+      }
+    }
+
+    function galleryCapture()
+    {
+      if (cvaReady == true) {
+        navigator.camera.getPicture(cameraSuccess, cameraError, {
+          quality : 50,
+          destinationType : Camera.DestinationType.FILE_URI,
+          sourceType : Camera.PictureSourceType.PHOTOLIBRARY
+        });
+      } else {
+        alert("Not yet, Cordova is not ready.");
+      }
+    }
+
+    function cameraSuccess(imageURL) {
+      $('#img').attr('src', imageURL);
+    }
+
+    function cameraError(e) {
+      alert('Error!!');
+    }
+
+  </script>
+</head>
+<body onload="onBodyLoad()">
+
+  <div data-role="page">
+
+    <div data-role="header">
+      <h1>Camera</h1>
+    </div>
+
+    <div data-role="main" class="ui-content">
+      <button onclick="cameraCapture();">Camera Capture</button>
+      <br>
+      <button onclick="galleryCapture();">Gallery Capture</button>
+      <br>
+      <img id="img" width="250px" height="250px">
+    </div>
+
+  </div>
+</body>
+</html>

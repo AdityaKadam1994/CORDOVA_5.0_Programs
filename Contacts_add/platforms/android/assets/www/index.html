@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Hello Cordova 1</title>
+
+
+  <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" id="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <link rel="stylesheet" type="text/css" href="jquery.mobile-1.4.4.css"/>
+
+  <script src="jquery-1.11.1.min.js"></script>
+  <script src="jquery.mobile-1.4.4.js"></script>
+  <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+
+  <script type="text/javascript" charset="utf-8">
+
+    var cvaReady = false;
+
+    function onBodyLoad() {
+      document.addEventListener("deviceready", onDeviceReady, false);
+    }
+
+    function onDeviceReady() {
+      cvaReady = true;
+    }
+
+    function addContact()
+    {
+      if (cvaReady == true) {
+
+        var contact = navigator.contacts.create();
+
+        contact.displayName = $("#contactDisplayName").val();
+
+        var tmpName=new ContactName();
+        tmpName.givenName = $("#contactFirstName").val();
+        tmpName.familyName = $("#contactLastName").val();
+        contact.name = tmpName;
+
+        var phoneNums=[2];
+        phoneNums[0]=new ContactField('mobile',$("#contactPhoneNumber").val(),false);
+        contact.phoneNumbers = phoneNums;
+
+        var emailss=[1];
+        emailss[0]=new ContactField('work',$("#contactEmailID").val(),false);
+        contact.emails = emailss;
+
+        contact.save(contactSaveSuccess, contactSaveError);
+
+      } else {
+        alert("Not yet, Cordova is not ready.");
+      }
+    }
+
+    function contactSaveSuccess()
+    {
+      alert('Contact Added');
+    }
+
+    function contactSaveError(error)
+    {
+      alert('Failed to add Contact '+error);
+    }
+  </script>
+</head>
+<body onload="onBodyLoad()">
+
+  <div data-role="page">
+
+    <div data-role="header">
+      <h1>Add Contact</h1>
+    </div>
+
+    <div data-role="main" class="ui-content">
+      <input type="text" id="contactDisplayName" placeholder="Enter Contact Display Name">
+      <input type="text" id="contactFirstName" placeholder="Enter Contact First Name">
+      <input type="text" id="contactLastName" placeholder="Enter Contact Last Name">
+      <input type="text" id="contactPhoneNumber" placeholder="Enter Contact Phone Number">
+      <input type="text" id="contactEmailID" placeholder="Enter Contact Email ID">
+      <br>
+      <button onclick="addContact();">
+        Add
+      </button>
+    </div>
+
+  </div>
+</body>
+</html>

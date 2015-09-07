@@ -1,0 +1,8 @@
+{
+    "org.apache.cordova.camera": {
+        "source": {
+            "type": "local",
+            "path": "/Users/vipulshah/.plugman/cache/org.apache.cordova.camera/0.3.2/package"
+        }
+    }
+}

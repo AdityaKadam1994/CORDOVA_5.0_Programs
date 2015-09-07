@@ -1,0 +1,17 @@
+{
+    "name": "com.example.contact",
+    "version": "0.0.1",
+    "displayName": "HelloCordova",
+    "cordova": {
+        "platforms": [
+            "android"
+        ],
+        "plugins": {
+            "cordova-plugin-contacts": {}
+        }
+    },
+    "dependencies": {
+        "cordova-android": "~6.2.3",
+        "cordova-plugin-contacts": "~2.3.1"
+    }
+}

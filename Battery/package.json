@@ -1,0 +1,17 @@
+{
+    "name": "com.example.cordova",
+    "version": "0.0.1",
+    "displayName": "HelloCordova",
+    "cordova": {
+        "platforms": [
+            "android"
+        ],
+        "plugins": {
+            "cordova-plugin-battery-status": {}
+        }
+    },
+    "dependencies": {
+        "cordova-android": "^6.2.3",
+        "cordova-plugin-battery-status": "^1.2.4"
+    }
+}

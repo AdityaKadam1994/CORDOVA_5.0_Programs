@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Hello Cordova 1</title>
+
+
+  <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" id="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <link rel="stylesheet" type="text/css" href="jquery.mobile-1.4.4.css"/>
+
+  <script src="jquery-1.11.1.min.js"></script>
+  <script src="jquery.mobile-1.4.4.js"></script>
+  <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+
+  <script type="text/javascript" charset="utf-8">
+
+    var cvaReady = false;
+
+    function onBodyLoad() {
+      document.addEventListener("deviceready", onDeviceReady, false);
+    }
+
+    function onDeviceReady() {
+      cvaReady = true;
+    }
+
+    function pickContact()
+    {
+      if (cvaReady == true) {
+        navigator.contacts.pickContact(pickContactSuccess,pickContactFailure);
+      } else {
+        alert("Not yet, Cordova is not ready.");
+      }
+    }
+
+    function pickContactSuccess(contact)
+    {
+      var tmpStr;
+
+      alert(JSON.stringify(contact));
+
+      if(contact.displayName)
+      {
+        tmpStr = makeListItem('<strong><center>'+contact.displayName+'</center></strong>');
+      }
+
+      if(contact.phoneNumbers)
+      {
+        if(contact.phoneNumbers.length>0)
+        {
+          for(var i=0;i<contact.phoneNumbers.length;i++)
+          {
+            var type = contact.phoneNumbers[i].type;
+            var number = contact.phoneNumbers[i].value;
+          
+            tmpStr += makeListItem(type+' : '+number);
+          }
+        }
+      }
+
+      if(contact.emails)
+      {
+        if(contact.emails.length>0)
+        {
+          for(var i=0;i<contact.emails.length;i++)
+          {
+            var type = contact.emails[i].type;
+            var email = contact.emails[i].value;
+          
+            tmpStr += makeListItem(type+' : '+email);
+          }
+        }
+      }
+
+      $("#selected_contact_info_list").html(tmpStr);
+      $("#selected_contact_info_list").listview("refresh");
+    }
+
+    function pickContactFailure(error)
+    {
+      alert('Error while picking contact');
+    }
+
+    function makeListItem(item)
+    {
+      return '<li>' + item + '</li>';
+    }
+
+  </script>
+</head>
+<body onload="onBodyLoad()">
+
+  <div data-role="page">
+
+    <div data-role="header">
+      <h1>Cordova Info</h1>
+    </div>
+
+    <div data-role="main" class="ui-content">
+      <button onclick="pickContact();">
+        Pick Contact
+      </button>
+      <br>
+      <ul data-role='listview' id="selected_contact_info_list" data-inset="true"></ul>
+    </div>
+
+  </div>
+</body>
+</html>

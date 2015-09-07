@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Hello Cordova 1</title>
+
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+	<meta name="viewport" id="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+	<link rel="stylesheet" type="text/css" href="jquery.mobile-1.4.4.css"/>
+
+	<script src="jquery-1.11.1.min.js"></script>
+	<script src="jquery.mobile-1.4.4.js"></script>
+	
+	<script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+
+	<script type="text/javascript" charset="utf-8">
+
+		function onBodyLoad() {
+			document.addEventListener("deviceready", onDeviceReady, false);
+		}
+
+		function onDeviceReady() {
+			alert('onDeviceReady');
+		}
+
+		function addEventListeners() {
+			document.addEventListener("online", isOnline, false);
+			document.addEventListener("offline", isOffline, false);
+		}
+
+		function removeEventListeners() {
+			document.removeEventListener("online", isOnline);
+			document.removeEventListener("offline", isOffline);
+		}
+
+		function isOnline() {
+			var networkState = navigator.connection.type;
+
+			var states = {};
+			states[Connection.UNKNOWN]  = 'Unknown connection';
+			states[Connection.ETHERNET] = 'Ethernet connection';
+			states[Connection.WIFI]     = 'WiFi connection';
+			states[Connection.CELL_2G]  = 'Cell 2G connection';
+			states[Connection.CELL_3G]  = 'Cell 3G connection';
+			states[Connection.CELL_4G]  = 'Cell 4G connection';
+			states[Connection.CELL]     = 'Cell generic connection';
+			states[Connection.NONE]     = 'No network connection';
+
+			$('#networkInfo').prepend(getTimeString() + "Online "+states[networkState]+"<br />");
+		}
+
+		function isOffline() {
+			$('#networkInfo').prepend(getTimeString() + "Offline<br />");
+		}
+
+		function getTimeString() {
+			var d = new Date();
+			return d.toLocaleTimeString() + ": ";
+		}
+
+	</script>
+</head>
+<body onload="onBodyLoad()">
+
+	<div data-role="page">
+
+		<div data-role="header">
+			<h1>Network Info</h1>
+		</div>
+
+		<div data-role="main" class="ui-content">
+			<h3>Network Events</h3>
+			<br>
+			<button onclick="addEventListeners();">
+				Start
+			</button>
+			<button onclick="removeEventListeners();">
+				Stop
+			</button>
+			<br>
+			<p id="networkInfo"></p>
+		</div>
+
+	</div>
+</body>
+</html>

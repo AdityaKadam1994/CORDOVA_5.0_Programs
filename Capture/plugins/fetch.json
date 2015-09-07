@@ -1,0 +1,14 @@
+{
+    "org.apache.cordova.file": {
+        "source": {
+            "type": "local",
+            "path": "/Users/vipulshah/.plugman/cache/org.apache.cordova.file/1.3.1/package"
+        }
+    },
+    "org.apache.cordova.media-capture": {
+        "source": {
+            "type": "local",
+            "path": "/Users/vipulshah/.plugman/cache/org.apache.cordova.media-capture/0.3.3/package"
+        }
+    }
+}

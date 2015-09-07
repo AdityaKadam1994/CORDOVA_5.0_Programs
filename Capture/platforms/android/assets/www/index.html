@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Hello Cordova 1</title>
+
+
+  <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" id="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <link rel="stylesheet" type="text/css" href="jquery.mobile-1.4.4.css"/>
+
+  <script src="jquery-1.11.1.min.js"></script>
+  <script src="jquery.mobile-1.4.4.js"></script>
+  
+  <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+
+  <script type="text/javascript" charset="utf-8">
+
+    var cvaReady = false;
+
+    function onBodyLoad() {
+      document.addEventListener("deviceready", onDeviceReady, false);
+    }
+
+    function onDeviceReady() {
+      cvaReady = true;
+    }
+
+    /* ############ Capture Audio ############## */
+
+    function captureAudio()
+    { 
+      if (cvaReady == true) {
+        navigator.device.capture.captureAudio(captureSuccess, captureError, {
+          duration : 5,
+          limit : 1
+        });
+      } else {
+        alert("Not yet, Cordova is not ready.");
+      }
+    }
+
+    /* ############ Capture Video ############## */
+
+    function captureVideo()
+    { 
+      if (cvaReady == true) {
+        navigator.device.capture.captureVideo(captureSuccess, captureError, { limit:3 });
+      } else {
+        alert("Not yet, Cordova is not ready.");
+      } 
+    }
+
+    /* ############ Capture Image ############## */
+
+    function captureImage()
+    { 
+      if (cvaReady == true) {
+        navigator.device.capture.captureImage(captureSuccess, captureError, { limit:3 });
+      } else {
+        alert("Not yet, Cordova is not ready.");
+      }
+    }
+
+    /* ############ Capture Callbacks ############## */
+
+    function captureSuccess(files)
+    {
+      if(files)
+      {
+        var tmpStr='';
+        for(var i=0;i<files.length;i++)
+        {
+          tmpStr += makeListItem('<strong>Media File '+(i+1)+'</strong>');
+          tmpStr += makeListItem('File name: ' + files[i].name);
+          tmpStr += makeListItem('File Type: ' + files[i].type);
+          tmpStr += makeListItem('File Size: ' + files[i].size +' bytes');
+          tmpStr += makeListItem('File Path: ' + files[i].fullPath);
+          tmpStr += makeListItem('Timestamp: ' + getTimeString());
+        }
+        alert('Done');
+        $("#capture_media_info_list").html(tmpStr);
+        $("#capture_media_info_list").listview("refresh");
+      }
+    }
+
+    function captureError()
+    {
+      alert('Error!');
+    }
+
+    function makeListItem(item)
+    {
+      return '<li>' + item + '</li>';
+    }
+
+    function getTimeString() {
+      var d = new Date();
+      return d.toLocaleTimeString();
+    }
+
+
+  </script>
+</head>
+<body onload="onBodyLoad()">
+
+  <div data-role="page">
+
+    <div data-role="header">
+      <h1>Capture Media</h1>
+    </div>
+
+    <div data-role="main" class="ui-content">
+
+      <button onclick="captureAudio();">Capture Audio</button>
+      <br>
+      <button onclick="captureVideo();">Capture Video</button>
+      <br>
+      <button onclick="captureImage();">Capture Image</button>
+      <br>
+      <ul data-role='listview' id="capture_media_info_list" data-inset="true"></ul>
+    </div>
+
+  </div>
+</body>
+</html>

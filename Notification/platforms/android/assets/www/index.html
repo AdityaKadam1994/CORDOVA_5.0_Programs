@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Hello Cordova 1</title>
+
+
+  <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" id="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <link rel="stylesheet" type="text/css" href="jquery.mobile-1.4.4.css"/>
+
+  <script src="jquery-1.11.1.min.js"></script>
+  <script src="jquery.mobile-1.4.4.js"></script>
+  
+  <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+
+  <script type="text/javascript" charset="utf-8">
+
+    var cvaReady = false;
+
+    function onBodyLoad() {
+      document.addEventListener("deviceready", onDeviceReady, false);
+    }
+
+    function onDeviceReady() {
+      cvaReady = true;
+    }
+
+    /* ############ Alert ############## */
+
+    function showAlert()
+    { 
+      if (cvaReady == true) {
+        navigator.notification.alert('Cordova Alert :-)',alertCallback,'Alert','Awesome');
+      } else {
+        alert("Not yet, Cordova is not ready.");
+      }
+    }
+
+    function alertCallback()
+    {
+      navigator.notification.alert('Alert Dismissed',null,null,'OK');
+    }
+
+    /* ############ Confirm ############## */
+
+    function showConfirm()
+    { 
+      if (cvaReady == true) {
+        navigator.notification.confirm('Are you sure want to exit?',confirmCallback,'Please Confirm',['Yes','No','Cancel']);
+      } else {
+        alert("Not yet, Cordova is not ready.");
+      } 
+    }
+
+    function confirmCallback(buttonIndex)
+    {
+      navigator.notification.alert('Thanks for confirmation '+buttonIndex,null,"Thanks",'OK');
+    }
+
+    /* ############ Prompt ############## */
+
+    function showPrompt()
+    { 
+      if (cvaReady == true) {
+        navigator.notification.prompt('Please enter your name',promptCallback,'Registration',['Ok','Exit'],'name');
+      } else {
+        alert("Not yet, Cordova is not ready.");
+      }
+    }
+
+    function promptCallback(results)
+    {
+     navigator.notification.alert('Hello '+results.input1+' you pressed button '+results.buttonIndex,null,"Thanks",'OK');
+   }
+
+   /* ############ Beep ############## */
+
+   function showBeep()
+   { 
+    if (cvaReady == true) {
+      navigator.notification.beep(5);
+    } else {
+      alert("Not yet, Cordova is not ready.");
+    }
+   }
+
+   /* ############ Vibrate ############## */
+
+   function vibrate()
+   { 
+    if (cvaReady == true) {
+      navigator.vibrate(3000);
+    } else {
+      alert("Not yet, Cordova is not ready.");
+    }
+   }
+
+
+
+</script>
+</head>
+<body onload="onBodyLoad()">
+
+  <div data-role="page">
+
+    <div data-role="header">
+      <h1>Notifications</h1>
+    </div>
+
+    <div data-role="main" class="ui-content">
+
+      <button onclick="showAlert();">Alert</button>
+      <br>
+      <button onclick="showConfirm();">Confirm</button>
+      <br>
+      <button onclick="showPrompt();">Prompt</button>
+      <br>
+      <button onclick="showBeep();">Beep</button>
+      <br>
+      <button onclick="vibrate();">Vibrate</button>
+      <br>
+    </div>
+
+  </div>
+</body>
+</html>

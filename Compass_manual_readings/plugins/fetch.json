@@ -1,0 +1,8 @@
+{
+    "org.apache.cordova.device-orientation": {
+        "source": {
+            "type": "local",
+            "path": "/Users/vipulshah/.plugman/cache/org.apache.cordova.device-orientation/0.3.9/package"
+        }
+    }
+}

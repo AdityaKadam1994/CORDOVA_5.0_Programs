@@ -1,0 +1,14 @@
+{
+    "org.apache.cordova.device-motion": {
+        "source": {
+            "type": "local",
+            "path": "/Users/vipulshah/.plugman/cache/org.apache.cordova.device-motion/0.2.10/package"
+        }
+    },
+    "org.apache.cordova.dialogs": {
+        "source": {
+            "type": "local",
+            "path": "/Users/vipulshah/.plugman/cache/org.apache.cordova.dialogs/0.2.10/package"
+        }
+    }
+}

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Hello Cordova 1</title>
+
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+	<meta name="viewport" id="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+	<link rel="stylesheet" type="text/css" href="jquery.mobile-1.4.4.css"/>
+
+	<script src="jquery-1.11.1.min.js"></script>
+	<script src="jquery.mobile-1.4.4.js"></script>
+	
+	<script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+
+	<script type="text/javascript" charset="utf-8">
+
+		var fileObject;
+
+		function onBodyLoad() {
+			document.addEventListener("deviceready", onDeviceReady, false);
+		}
+
+		function onDeviceReady()
+		{
+			window.requestFileSystem(LocalFileSystem.TEMPORARY,0,onFileSystemSuccess, onFileSystemFailure);
+		}
+
+		function onFileSystemFailure(error) 
+		{
+			alert("Error while requesting file system!");
+		}
+
+		function onFileSystemSuccess(fileSystem)
+		{
+			var options ={
+				create:true,
+				exclusive:false
+			}
+			fileSystem.root.getFile('download.txt',options,fileEntrySuccess,fileEntryFailure)
+		}
+
+		function fileEntryFailure(error)
+		{
+			alert("Error while creating file handle");
+		}
+
+		function fileEntrySuccess(fileEntry)
+		{
+			fileObject=fileEntry;
+		}
+
+		function readFile()
+		{
+			if(fileObject)
+			{
+				fileObject.file(fileReaderSuccess, fileReaderFailure);
+			}
+			else
+			{
+				alert('Could not read from file');
+			}
+		}
+
+		function fileReaderSuccess(file)
+		{
+			var reader = new FileReader();
+			reader.onloadend = function(event)
+			{
+				$('#fileMessage').html('File Content: <br><br>'+event.target.result);
+			};
+			reader.onloaderror = function(evt) { 
+				alert("reader.onerr"); 
+			}; 
+			reader.readAsText(file);
+		}
+
+		function fileReaderFailure(error)
+		{
+			alert("Error while reading file contents");
+		}
+
+		function downloadFile()
+		{
+
+			if(fileObject)
+			{
+				var fileTransfer = new FileTransfer();
+				var uri = encodeURI("https://raw.githubusercontent.com/vipulshah2010/Cordova_MCA_IV_SEM/master/README.md");
+
+				fileTransfer.onprogress = function(progressEvent) {
+						$('#fileMessage').html('Downloading File!');
+				};
+
+				fileTransfer.download(
+					uri,
+					fileObject.toURL(),
+					function(entry) {
+						$('#fileMessage').html("download complete: " + entry.toURL());
+					},
+					function(error) {
+						alert("Download Error");
+					},
+					false,
+					null
+					);
+			}
+			else
+			{
+				alert('Could not download file');
+			}
+		}
+
+	</script>
+</head>
+<body onload="onBodyLoad()">
+
+	<div data-role="page">
+
+		<div data-role="header">
+			<h1>File Download API</h1>
+		</div>
+
+		<div data-role="main" class="ui-content">
+			<h3>File Download API</h3>
+			<button onclick="downloadFile();">
+				Download File
+			</button>
+			<button onclick="readFile();">
+				Display File Contents
+			</button>
+			<br>
+			<p id="fileMessage"></p>
+		</div>
+
+	</div>
+</body>
+</html>

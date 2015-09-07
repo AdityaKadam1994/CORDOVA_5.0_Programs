@@ -1,0 +1,17 @@
+{
+    "name": "com.example.notification",
+    "version": "0.0.1",
+    "displayName": "HelloCordova",
+    "cordova": {
+        "platforms": [
+            "android"
+        ],
+        "plugins": {
+            "cordova-plugin-dialogs": {}
+        }
+    },
+    "dependencies": {
+        "cordova-android": "^6.2.3",
+        "cordova-plugin-dialogs": "^1.3.3"
+    }
+}

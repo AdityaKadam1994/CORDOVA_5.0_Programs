@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Hello Cordova 1</title>
+
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+	<meta name="viewport" id="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+	<link rel="stylesheet" type="text/css" href="jquery.mobile-1.4.4.css"/>
+
+	<script src="jquery-1.11.1.min.js"></script>
+	<script src="jquery.mobile-1.4.4.js"></script>
+	<script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+
+	<script type="text/javascript" charset="utf-8">
+
+		var db;
+		var transaction;
+
+		function onBodyLoad() {
+			document.addEventListener("deviceready", onDeviceReady, false);
+		}
+
+		function onDeviceReady() {
+
+			db = window.sqlitePlugin.openDatabase({name: "bvimit.db"});	
+			db.transaction(onTransactionDone);
+
+		}
+
+		function onTransactionDone(tx)
+		{
+			transaction=tx;
+			transaction.executeSql('DROP TABLE IF EXISTS emp');
+			transaction.executeSql('CREATE TABLE IF NOT EXISTS emp (id integer primary key, name text, salary integer)');
+
+		}
+
+		function insertRecord()
+		{
+			if(db)
+			{
+				db.transaction(function(tx)
+				{
+					tx.executeSql("INSERT INTO emp (name, salary) VALUES (?,?)", ["vipul", 1000], function(tx, res) {
+						alert('Insert Success! '+res.insertId);
+					}, function(e) {
+						alert('Error inserting data');
+					});
+
+					tx.executeSql("INSERT INTO emp (name, salary) VALUES (?,?)", ["vinay", 2000], function(tx, res) {
+						alert('Insert Success! '+res.insertId);
+					}, function(e) {
+						alert('Error inserting data');
+					});
+
+					tx.executeSql("INSERT INTO emp (name, salary) VALUES (?,?)", ["vishal", 3000], function(tx, res) {
+						alert('Insert Success! '+res.insertId);
+					}, function(e) {
+						alert('Error inserting data');
+					});
+				});	
+			}
+		}
+
+		function listRecords()
+		{
+			if(db)
+			{
+				db.transaction(function(tx)
+				{
+					// "select * from emp where name=?;",["vishal"]
+
+					tx.executeSql("select * from emp;",[], function(tx, res) {
+						alert('Records Found:'+res.rows.length);
+						for(var i=0;i<res.rows.length;i++)
+						{
+							alert('Name:'+res.rows.item(i).name+'\n'+'Salary:'+res.rows.item(i).salary);
+						}
+					}, function(e) {
+						alert('Error retrieving data');
+					});
+				});	
+			}
+		}
+
+		function deleteRecords()
+		{
+			if(db)
+			{
+				db.transaction(function(tx)
+				{
+					tx.executeSql("delete from emp where name=?;",["vishal"], function(tx, res) {
+						alert('Delete Success');
+					}, function(e) {
+						alert('Deletion Failed');
+					});
+				});	
+			}
+		}
+
+		function updateRecords()
+		{
+			if(db)
+			{
+				db.transaction(function(tx)
+				{
+					tx.executeSql("update emp set salary=? where name=?;",[10000,"vishal"], function(tx, res) {
+						alert('Update Success for rows');
+					}, function(e) {
+						alert('Updation Failed');
+					});
+				});	
+			}
+		}
+
+	</script>
+</head>
+
+<body onload="onBodyLoad()">
+
+	<div data-role="page">
+
+		<div data-role="header">
+			<h1>SQLite Demo</h1>
+		</div>
+
+		<div data-role="main" class="ui-content">
+			<button onclick="insertRecord();">
+				Insert Data
+			</button>
+
+			<button onclick="listRecords();">
+				List Records
+			</button>
+
+			<button onclick="deleteRecords();">
+				Delete Records
+			</button>
+
+			<button onclick="updateRecords();">
+				Update Records
+			</button>
+		</div>
+
+	</div>
+</body>
+</html>

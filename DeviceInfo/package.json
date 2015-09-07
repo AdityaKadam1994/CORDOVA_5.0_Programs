@@ -1,0 +1,17 @@
+{
+    "name": "com.deviceinfo",
+    "version": "0.0.1",
+    "displayName": "HelloCordova",
+    "cordova": {
+        "platforms": [
+            "android"
+        ],
+        "plugins": {
+            "cordova-plugin-device": {}
+        }
+    },
+    "dependencies": {
+        "cordova-android": "~6.2.3",
+        "cordova-plugin-device": "~1.1.6"
+    }
+}

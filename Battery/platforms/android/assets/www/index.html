@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Hello Cordova 1</title>
+
+  <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" id="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <link rel="stylesheet" type="text/css" href="jquery.mobile-1.4.4.css"/>
+
+  <script src="jquery-1.11.1.min.js"></script>
+  <script src="jquery.mobile-1.4.4.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+
+  <script type="text/javascript" charset="utf-8">
+
+    function onBodyLoad() {
+      document.addEventListener("deviceready", onDeviceReady, false);
+    }
+
+    function onDeviceReady() {
+      window.addEventListener("batterycritical", onBatteryCritical, false);
+      window.addEventListener("batterylow", onBatteryLow, false);
+      window.addEventListener("batterystatus", onBatteryStatus, false);
+    }
+
+    function onBatteryCritical(status) {
+      $('#batInfo').prepend("Battery Level Critical " + status.level + "%\nRecharge Soon!<br />");
+    }
+
+    function onBatteryLow(status) {
+      $('#batInfo').prepend("Battery Level Low " + status.level + "%.<br />");
+    }
+
+    function onBatteryStatus(status) {
+      var msgText;
+      if (status.isPlugged) {
+        msgText = "";
+      } else {
+        msgText = "not ";
+      }
+      msgText = status.level + "% (" + msgText + "plugged in)";
+      $('#batInfo').prepend(msgText + "<br />");
+    }
+
+  </script>
+</head>
+<body onload="onBodyLoad()">
+
+  <div data-role="page">
+
+    <div data-role="header">
+      <h1>Battery Info</h1>
+    </div>
+
+    <div data-role="main" class="ui-content">
+      <h3>Battery Status</h3>
+      <p id="batInfo"></p>
+    </div>
+
+  </div>
+</body>
+</html>
